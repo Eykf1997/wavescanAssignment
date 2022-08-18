@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>WaveScan Success</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="https://unpkg.com/vue@next"></script>
+    <style>
+
+        input,select,button{
+            border-radius: 25px!important;
+        }
+
+    </style>
+</head>
+<body class="bg-dark">
+    <img src="https://www.wavescan.sg/wp-content/uploads/2018/11/wavescan-website.png" style="width:10%">
+    <div id="app">
+        <div class="container">
+            <div class="row">
+                <p class="text-white float-left" id="scannersFound">Scanners found: </p>
+                <table class="table text-white" id="scannerDetailsTable">
+                    <thead>
+                    <tr>
+                        <th scope="col">Scanner Name</th>
+                        <th scope="col">IP Address</th>
+                        <th scope="col">Scanner Speed</th>
+                        <th scope="col">Status</th>
+                        <th scope="col"></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="mt-2" v-for="ind in scannerDetails">
+                            <td>{{ind.scannerName}}</td>
+                            <td>{{ind.ipAddress}}</td>
+                            <td>{{ind.scannerSpeed}}</td>
+                            <td v-if="ind.isAvailable=='true'">Available</td>
+                            <td v-else>Engaged</td>
+                            <td><button type="button">Connect</button></td>
+                        </tr>
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <script>
+        
+        var url='https://wavescan-internship.saurabhmudgal.repl.co/success'
+
+        Vue.createApp({
+
+            data () {
+                return {
+                    scannerDetails: null
+                }
+            },
+            mounted () {
+
+                axios
+                .get('https://wavescan-internship.saurabhmudgal.repl.co/success')
+                .then(response => {
+                    // this.usd = response.data.bpi.USD
+                    // this.code = response.data.bpi.USD.code
+                    document.getElementById('scannersFound').innerText += " " + response.data.length
+                    this.scannerDetails = response.data
+                    console.log(response.data)
+                })
+
+            }
+
+        })
+        .mount('#app')
+    </script>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.3/dist/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+
+</body>
+</html>
